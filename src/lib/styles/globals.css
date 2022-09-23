@@ -1,0 +1,28 @@
+/* Global Styling here */
+.inpage-link {
+  position: absolute;
+  left: 0%;
+  top: -135px;
+  right: auto;
+  bottom: auto;
+}
+html {
+  scroll-behavior: smooth;
+  font-family: Inter, sans-serif !important;
+}
+.text-fill1 {
+  background: linear-gradient(89.93deg, #ff488b 0.06%, #42ffd2 102.04%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+  display: inline-block;
+}
+.text-fill2 {
+  background: linear-gradient(90deg, #42ffd2 35.7%, #ff488b 70.55%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+  display: inline-block;
+}
