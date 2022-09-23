@@ -77,8 +77,9 @@ export const Result = (props: ResultProps) => {
       setIsError(true);
       setErrMessage(e.message);
     },
+    allowFailure: false,
   });
-  return (
+  return name ? (
     <VStack direction="column" w="full">
       <Stack
         direction="row"
@@ -106,5 +107,5 @@ export const Result = (props: ResultProps) => {
         </Text>
       </Stack>
     </VStack>
-  );
+  ) : null;
 };
