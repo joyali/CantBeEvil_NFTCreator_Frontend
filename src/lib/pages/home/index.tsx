@@ -1,4 +1,5 @@
 import { Flex, Text, Box, useDisclosure } from "@chakra-ui/react";
+import { NextSeo } from "next-seo";
 import { useState, useEffect } from "react";
 
 import { CollectionForm } from "@/lib/components/Home/CollectionForm";
@@ -36,6 +37,7 @@ const Home = () => {
       justifyContent="center"
       minHeight="70vh"
     >
+      <NextSeo title="Home" />
       <Box py={5} px={{ base: 5, md: 40 }} w="100%">
         <Text className="text-fill1" fontSize={24} fontWeight={700}>
           NFT = Non-Fungible Token
