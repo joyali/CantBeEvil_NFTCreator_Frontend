@@ -17,7 +17,11 @@ export const IconLink = () => {
           />
         </svg>
       </a>
-      <a href="https://twitter.com/0xfanmake" target="_blank" rel="noreferrer">
+      <a
+        href="https://twitter.com/0xContentFi"
+        target="_blank"
+        rel="noreferrer"
+      >
         <svg
           width="38"
           height="30"

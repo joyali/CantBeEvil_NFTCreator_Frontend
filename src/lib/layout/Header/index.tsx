@@ -28,8 +28,7 @@ const navItems: Array<NavItem> = [
   },
   {
     label: "About Us",
-    href: "/",
-    target: "_blank",
+    href: "#FOOTER",
   },
   {
     label: "What is Can’t Be Evil",

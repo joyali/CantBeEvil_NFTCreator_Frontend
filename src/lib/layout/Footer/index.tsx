@@ -32,11 +32,11 @@ const footerNavItems: FooterLinkItem[] = [
     sublinks: [
       {
         label: "Github",
-        href: "#",
+        href: "https://github.com/contentfi",
       },
       {
         label: "Become Partners",
-        href: "#",
+        href: "mailto:contact@fanmake.xyz",
       },
     ],
   },
@@ -68,6 +68,7 @@ export const Footer = () => {
         pb={20}
         maxW={1480}
         borderTop="#777E91 solid 1px"
+        id="FOOTER"
       >
         <VStack
           minW="390px"
@@ -90,25 +91,42 @@ export const Footer = () => {
             <Text color="#FCFCFD" fontSize="14px" fontWeight={400} pb="10px">
               Join our mailing list to stay in the loop with our latest updates
             </Text>
-            <InputGroup>
-              <Input
-                sx={{
-                  flex: 1,
-                }}
-                placeholder="Enter Email"
-                variant="greyOutlineRounded"
-                border="1px solid white"
-              />
-              <InputRightElement>
-                <IconButton
-                  variant="roundedWithPadding"
-                  aria-label="Enter your email"
-                  // bg="white"
-                  p="2px"
-                  icon={<BsArrowRightCircleFill size="100%" color="#00CC9C" />}
+            <form
+              action="https://www.getrevue.co/profile/fanmake/add_subscriber"
+              method="post"
+              id="revue-form"
+              name="revue-form"
+              target="_blank"
+              style={{ width: "100%" }}
+            >
+              <InputGroup w="100%">
+                <Input
+                  sx={{
+                    flex: 1,
+                  }}
+                  placeholder="Enter Email"
+                  variant="greyOutlineRounded"
+                  border="1px solid white"
+                  name="member[email]"
+                  id="member_email"
                 />
-              </InputRightElement>
-            </InputGroup>
+                <InputRightElement>
+                  <IconButton
+                    variant="roundedWithPadding"
+                    aria-label="Enter your email"
+                    // bg="white"
+                    p="2px"
+                    value="Subscribe"
+                    name="member[subscribe]"
+                    id="member_submit"
+                    type="submit"
+                    icon={
+                      <BsArrowRightCircleFill size="100%" color="#00CC9C" />
+                    }
+                  />
+                </InputRightElement>
+              </InputGroup>
+            </form>
           </VStack>
           {/* link section */}
           <Stack w="380px" direction="row" justifyContent="space-between">
