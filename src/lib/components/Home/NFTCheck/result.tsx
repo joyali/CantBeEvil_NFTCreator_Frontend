@@ -79,7 +79,7 @@ export const Result = (props: ResultProps) => {
     },
     allowFailure: false,
   });
-  return name ? (
+  return (
     <VStack direction="column" w="full">
       <Stack
         direction="row"
@@ -102,10 +102,10 @@ export const Result = (props: ResultProps) => {
         <Text>License Detail: </Text>
         <Text>
           <Link href={ar2http(uri)} target="_blank">
-            Check PDF documentation
+            {uri && "Check PDF documentation"}
           </Link>{" "}
         </Text>
       </Stack>
     </VStack>
-  ) : null;
+  );
 };
