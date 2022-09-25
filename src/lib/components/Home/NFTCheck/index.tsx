@@ -9,6 +9,7 @@ import {
 } from "@chakra-ui/react";
 import type { ChangeEventHandler, MouseEventHandler } from "react";
 import { useState } from "react";
+import { useAccount } from "wagmi";
 
 import { Result } from "./result";
 
@@ -21,6 +22,7 @@ const NFTCheck = () => {
   const [errMessage, setErrMessage] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
   const [isError, setIsError] = useState(false);
+  const { status } = useAccount();
   const onCheckClick: MouseEventHandler<HTMLButtonElement> = () => {
     // isValid(contractAddress);
     // 0xF4Dd946D1406e215a87029db56C69e1Bcf3e1773
@@ -29,6 +31,12 @@ const NFTCheck = () => {
       setIsError(true);
       return;
     }
+    if (status !== "connected") {
+      setErrMessage("Please connect wallet and choose network first");
+      setIsError(true);
+      return;
+    }
+
     setIsLoading(true);
     setIsError(false);
   };

@@ -1,3 +1,4 @@
+import { ChevronRightIcon } from "@chakra-ui/icons";
 import { Box, Button } from "@chakra-ui/react";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 
@@ -35,33 +36,6 @@ export const ConnectBtn = () => {
               },
             })}
           >
-            {/* <Button
-              variant="greyLightRounded"
-              onClick={openChainModal}
-              type="button"
-            >
-              {chain?.hasIcon && (
-                <div
-                  style={{
-                    background: chain.iconBackground,
-                    width: 12,
-                    height: 12,
-                    borderRadius: 999,
-                    overflow: "hidden",
-                    marginRight: 4,
-                  }}
-                >
-                  {chain.iconUrl && (
-                    <img
-                      alt={chain.name ?? "Chain icon"}
-                      src={chain.iconUrl}
-                      style={{ width: 12, height: 12 }}
-                    />
-                  )}
-                </div>
-              )}
-              {chain?.name}
-            </Button> */}
             {(() => {
               if (!connected) {
                 return (
@@ -89,6 +63,16 @@ export const ConnectBtn = () => {
 
               return (
                 <div style={{ display: "flex" }}>
+                  <Button
+                    variant="greyLightRounded"
+                    onClick={openChainModal}
+                    type="button"
+                    w="130px"
+                    mr={2}
+                    rightIcon={<ChevronRightIcon />}
+                  >
+                    {chain?.name}
+                  </Button>
                   <Button
                     variant="greyLightRounded"
                     onClick={openAccountModal}
