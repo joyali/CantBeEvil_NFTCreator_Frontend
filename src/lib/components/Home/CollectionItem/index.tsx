@@ -1,4 +1,4 @@
-import { Box, Flex, Image, Text } from "@chakra-ui/react";
+import { Box, Flex, Image, Text, Link } from "@chakra-ui/react";
 
 import type { CBELicenseVersion } from "@/lib/types/CBELicenseType";
 
@@ -6,14 +6,20 @@ import ImageLicenseTag from "./ImageLicenseTag";
 
 export interface CollectionItemProps {
   name?: string;
-  image?: string;
+  logo?: string;
   desc?: string;
   license?: CBELicenseVersion;
+  address: string;
+  chainId: string;
 }
 
 const CollectionItem = (props: CollectionItemProps) => {
-  const { name, image, desc, license } = props;
+  const { name, logo, desc, license, address, chainId } = props;
 
+  const url =
+    chainId === "1"
+      ? `https://etherscan.io/address/${address}`
+      : `https://goerli.etherscan.io//address/${address}`;
   return (
     <Flex
       flexDirection="column"
@@ -28,22 +34,24 @@ const CollectionItem = (props: CollectionItemProps) => {
         rgba(255, 255, 255, 0.15) 136.58%
       );"
     >
-      <Box position="relative">
-        {license && <ImageLicenseTag license={license} />}
-        <Image
-          src={image}
-          width="256px"
-          height="256px"
-          objectFit="cover"
-          borderRadius={20}
-        />
-      </Box>
-      <Text fontSize="medium" marginTop="20px" color="#333">
-        {name}
-      </Text>
-      <Text fontSize="xs" marginTop="12px" noOfLines={2} color="#333">
-        {desc}
-      </Text>
+      <Link href={url} target="_blank">
+        <Box position="relative">
+          {license && <ImageLicenseTag license={license} />}
+          <Image
+            src={logo}
+            width="256px"
+            height="256px"
+            objectFit="cover"
+            borderRadius={20}
+          />
+        </Box>
+        <Text fontSize="medium" marginTop="20px" color="#333">
+          {name}
+        </Text>
+        <Text fontSize="xs" marginTop="12px" noOfLines={2} color="#333">
+          {desc}
+        </Text>
+      </Link>
     </Flex>
   );
 };

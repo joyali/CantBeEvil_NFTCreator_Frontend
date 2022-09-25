@@ -13,17 +13,21 @@ import Banner from "lib/components/Home/Banner";
 const Home = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [license, setLicense] = useState(CBELicenseVersion.CBE_CC0);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isEnd, setIsEnd] = useState(false);
+  const [anchorId, setAnchorId] = useState("0");
   const [collectionData, setCollectionData] = useState<CollectionItemProps[]>(
     []
   );
   const init = async () => {
-    setIsLoading(true);
-    fetch("/api/hello")
+    fetch(
+      `https://api.longxia.asia/collection/?size=8&anchorId=0&reverse=true`,
+      { method: "GET" }
+    )
       .then((res) => res.json())
       .then((data) => {
-        setCollectionData(data);
-        setIsLoading(false);
+        setIsEnd(data.isEnd);
+        setCollectionData(data.collections);
+        setAnchorId(data.anchorId);
       });
   };
   useEffect(() => {
@@ -65,7 +69,13 @@ const Home = () => {
         isOpenProps={isOpen}
         onCloseProps={onClose}
       />
-      <CollectionSection initData={collectionData} isLoading={isLoading} />
+      <CollectionSection
+        initData={collectionData}
+        isEnd={isEnd}
+        setIsEnd={setIsEnd}
+        anchorId={anchorId}
+        setAnchorId={setAnchorId}
+      />
       <NFTCheck />
     </Flex>
   );

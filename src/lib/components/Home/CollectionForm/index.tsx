@@ -9,14 +9,20 @@ import {
   Stack,
   useDisclosure,
 } from "@chakra-ui/react";
+import { ContractFactory } from "ethers";
+import { NFTStorage } from "nft.storage";
 import type { ChangeEventHandler } from "react";
 import { useState } from "react";
+import { useSigner, useNetwork, useAccount } from "wagmi";
 
+import { licenceVersion } from "../../utils/CBEutils";
 import { FormDropZoneImage } from "@/lib/components/FormDropZoneImage";
 import { FormTextArea } from "@/lib/components/FormTextArea";
 import { FormTextInput } from "@/lib/components/FormTextInput";
 import { SectionHeading } from "@/lib/components/SectionHeading";
 import type { CBELicenseVersion } from "@/lib/types/CBELicenseType";
+
+import Contract from "./contract/contrat.json";
 
 interface FormProps {
   license: CBELicenseVersion;
@@ -27,11 +33,17 @@ interface FormProps {
 export const CollectionForm = (props: FormProps) => {
   const { isOpenProps, onCloseProps, license, init } = props;
   const { isOpen, onOpen } = useDisclosure();
+  const token = process.env.NEXT_PUBLIC_NFT_STORAGE_TOKEN;
+  const [file, setFile] = useState<File>();
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const onCollectionLogoAccepted = (f: File | null) => {
-    // eslint-disable-next-line no-console
-    console.log(f);
+    if (f) setFile(f);
   };
-  // const { isOpen, onToggle } = useDisclosure();
+
+  const { data: signer } = useSigner();
+  const { address: creatorAddress } = useAccount();
+  const { chain } = useNetwork();
   const [collectionName, setCollectionName] = useState("");
   const onChangeCollectionName: ChangeEventHandler<HTMLInputElement> = (e) => {
     setCollectionName(e.target.value);
@@ -45,15 +57,97 @@ export const CollectionForm = (props: FormProps) => {
   const [shortDesc, setShortDesc] = useState("");
   const onShortDescChange: ChangeEventHandler<HTMLTextAreaElement> = (e) =>
     setShortDesc(e.target.value);
-  const onSubmit = () => {
-    // console.log("Name is", collectionName);
-    // console.log("Symbol is", collectionSymbol);
-    // console.log("Short Desc is", shortDesc);
-    // console.log("License is", license);
-    // console.log("Logo props TODO");
-    onOpen();
-    init();
+  const isVaild = (): boolean => {
+    if (!token) {
+      setErrorMessage("Missing NFT_STORAGE_TOKEN");
+      return false;
+    }
+    if (!file) {
+      setErrorMessage("Missing LOGO");
+      return false;
+    }
+    if (!collectionName) {
+      setErrorMessage("Missing NAME");
+      return false;
+    }
+    if (!collectionSymbol) {
+      setErrorMessage("Missing SYMBOL");
+      return false;
+    }
+    if (!shortDesc) {
+      setErrorMessage("Missing DESCRIPTION");
+      return false;
+    }
+
+    if (!signer) {
+      setErrorMessage("Missing signer, please connect to a wallet");
+      setIsLoading(false);
+      return false;
+    }
+    return true;
   };
+  const onSubmit = async () => {
+    setIsLoading(true);
+    setErrorMessage("");
+
+    if (!isVaild()) {
+      setIsLoading(false);
+      return;
+    }
+    const storage = new NFTStorage({ token: token || "" });
+    const cidFile = await storage.storeBlob(file || new Blob());
+    const statusFile = await storage.status(cidFile);
+    const logo = `https://${statusFile.cid}.ipfs.nftstorage.link`;
+    const metadata = JSON.stringify({
+      image: logo,
+      description: shortDesc,
+    });
+    const cid = await storage.storeBlob(
+      new Blob([metadata], {
+        type: "text/plain",
+      })
+    );
+    const status = await storage.status(cid);
+    const metadataURI = `https://${status.cid}.ipfs.nftstorage.link`;
+    const CollectionContract = new ContractFactory(
+      Contract.abi,
+      Contract.bytecode,
+      signer || undefined
+    );
+    const Collection = await CollectionContract.deploy(
+      collectionName,
+      collectionSymbol,
+      metadataURI,
+      licenceVersion(license)
+    );
+    await Collection.deployed();
+
+    const { address } = Collection;
+    const chainId = chain?.id;
+    fetch("https://api.longxia.asia/collection", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        name: collectionName,
+        logo,
+        symbol: collectionSymbol,
+        desc: shortDesc,
+        license,
+        creator_address: creatorAddress,
+        address,
+        chainId,
+      }),
+    })
+      .then((res) => res.json())
+      .then(() => {
+        setIsLoading(false);
+        onOpen();
+        init();
+      });
+  };
+
   return (
     <Flex
       direction="column"
@@ -130,6 +224,8 @@ export const CollectionForm = (props: FormProps) => {
                 placeholder={`e. g. "character nft ape"`}
                 w="100%"
                 mb={8}
+                isRequired
+                isDisabled={isOpen}
                 mr={5}
               />
               <FormTextInput
@@ -138,6 +234,8 @@ export const CollectionForm = (props: FormProps) => {
                 onInputChange={onChangeCollectionSymbol}
                 placeholder={`e. g. " MTK"`}
                 w="100%"
+                isRequired
+                isDisabled={isOpen}
                 mb={8}
               />
             </Flex>
@@ -146,6 +244,8 @@ export const CollectionForm = (props: FormProps) => {
               onTextAreaChange={onShortDescChange}
               placeholder="e. g. “this is a short description about your project this is a short description about your project this is a short description about your project this is a short description about your project this is a short description about your project this is a short description about your project this is a short description about your project this is a short description about your project...”"
               labelText="COLLECTION DESCRIPTION"
+              isRequired
+              isDisabled={isOpen}
               mb={8}
             />
           </Flex>
@@ -160,19 +260,26 @@ export const CollectionForm = (props: FormProps) => {
           my="40px"
           spacing={12}
         >
-          <Button
-            w="fit-content"
-            variant="greenBgWhiteText"
-            bg="#42FFD2"
-            fontWeight="700"
-            fontSize="md"
-            color="#333"
-            p="16px 24px"
-            onClick={onSubmit}
-            isLoading={isOpen}
-          >
-            Submit with {license}
-          </Button>
+          {!isOpen && (
+            <Button
+              w="fit-content"
+              variant="greenBgWhiteText"
+              bg="#42FFD2"
+              fontWeight="700"
+              fontSize="md"
+              color="#333"
+              p="16px 24px"
+              onClick={onSubmit}
+              isLoading={isLoading}
+            >
+              Submit with {license}
+            </Button>
+          )}
+          {errorMessage && (
+            <Text fontSize={14} fontWeight={700} ml={5} color="red.400">
+              {errorMessage}
+            </Text>
+          )}
           <ScaleFade in={isOpen}>
             <Stack direction="row">
               <svg

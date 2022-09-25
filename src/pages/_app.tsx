@@ -14,7 +14,7 @@ import "lib/styles/globals.css";
 import "@rainbow-me/rainbowkit/styles.css";
 
 const { chains, provider } = configureChains(
-  [chain.mainnet],
+  [chain.goerli, chain.mainnet],
   [publicProvider()]
 );
 
