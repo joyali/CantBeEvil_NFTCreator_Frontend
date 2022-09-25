@@ -158,7 +158,7 @@ export const CollectionForm = (props: FormProps) => {
       maxW="1120px"
       w="100%"
     >
-      <Collapse in={isOpenProps}>
+      <Collapse in={isOpenProps} id="FORM">
         <Flex w="100%" justifyContent="space-between" alignItems="center">
           <SectionHeading mb={1} color="#333">
             Create My NFT Collection

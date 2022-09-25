@@ -1,5 +1,6 @@
 /* eslint-disable no-bitwise */
 import { Box, Button, Flex, Switch, Text } from "@chakra-ui/react";
+import { useRouter } from "next/router";
 import { useState } from "react";
 
 import license2PDFMap from "@/lib/components/utils/CBEutils";
@@ -30,6 +31,7 @@ const val2License = (val: number) => {
 export const ToggleChooseLicense = (props: FormProps) => {
   // CC0: 8, commercial: 4, exploitation: 2, HStoggle: 1;
   // 8: CC0; 0: CBE-PR-HS; 1: CBE-PR; 4:CBE-ECR; 6: CBE-NECR; 7: CBE-NECR-HS;
+  const router = useRouter();
   const { setLicense, onOpen } = props;
   const [value, setValue] = useState(8);
   const onToggleChange = (num: number) => {
@@ -178,6 +180,7 @@ export const ToggleChooseLicense = (props: FormProps) => {
         h="48px"
         onClick={() => {
           setLicense(val2License(value));
+          router.push("#FORM");
           onOpen();
         }}
       >
