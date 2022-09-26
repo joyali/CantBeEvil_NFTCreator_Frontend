@@ -92,7 +92,7 @@ export const Footer = () => {
               Join our mailing list to stay in the loop with our latest updates
             </Text>
             <form
-              action="https://www.getrevue.co/profile/fanmake/add_subscriber"
+              action="https://contentfi.us9.list-manage.com/subscribe/post?u=46db0940971cfe089685277c9&amp;id=da45dcdcc1&amp;f_id=00f20fe1f0"
               method="post"
               id="revue-form"
               name="revue-form"
@@ -107,8 +107,9 @@ export const Footer = () => {
                   placeholder="Enter Email"
                   variant="greyOutlineRounded"
                   border="1px solid white"
-                  name="member[email]"
-                  id="member_email"
+                  name="EMAIL"
+                  id="mce-EMAIL"
+                  required
                 />
                 <InputRightElement>
                   <IconButton
