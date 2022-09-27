@@ -1,5 +1,6 @@
 import {
   Box,
+  Link,
   Popover,
   PopoverArrow,
   PopoverBody,
@@ -29,9 +30,9 @@ const ImageLicenseTag = (props: TagProps) => {
           borderRadius={32}
           border="2px solid #fff"
         >
-          <a href={license2PDFMap[license]} target="_blank" rel="noreferrer">
+          <Link href={license2PDFMap[license]} target="_blank" rel="noreferrer">
             {license}
-          </a>
+          </Link>
         </Box>
       </PopoverTrigger>
       <PopoverContent>
