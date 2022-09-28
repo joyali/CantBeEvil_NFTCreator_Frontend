@@ -147,7 +147,6 @@ export const CollectionForm = (props: FormProps) => {
         init();
       });
   };
-
   return (
     <Flex
       direction="column"

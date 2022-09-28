@@ -77,9 +77,17 @@ export const Footer = () => {
         >
           <Image width="245px" src="/logo-bk.png" alt="naruto" fit="contain" />
           <Text maxW={390} fontSize={14} lineHeight={1.5} display="block">
-            The leading Decentralized IP Derivative NFT Platform Interest
-            Sharing between IP Holder and Derivative Creator Building a better
-            community and IP ecosystem
+            A community-owned sustainable decntralized IP-focused Content
+            financial ecosystem:
+          </Text>
+          <Text
+            maxW={390}
+            mt={50}
+            fontSize={14}
+            lineHeight={1.5}
+            display="block"
+          >
+            Monetisation infrastructure for IPs
           </Text>
           <IconLink />
         </VStack>

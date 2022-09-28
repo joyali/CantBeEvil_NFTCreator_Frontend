@@ -1,9 +1,13 @@
-import { Stack } from "@chakra-ui/react";
+import { Link, Stack } from "@chakra-ui/react";
 
 export const IconLink = () => {
   return (
     <Stack direction="row" pt={5} spacing={5}>
-      <a href="https://discord.gg/QHbeHwvdas" target="_blank" rel="noreferrer">
+      <Link
+        href="https://discord.gg/QHbeHwvdas"
+        target="_blank"
+        rel="noreferrer"
+      >
         <svg
           width="40"
           height="31"
@@ -16,8 +20,8 @@ export const IconLink = () => {
             fill="rgba(255,255,255,0.7)"
           />
         </svg>
-      </a>
-      <a
+      </Link>
+      <Link
         href="https://twitter.com/0xContentFi"
         target="_blank"
         rel="noreferrer"
@@ -34,7 +38,7 @@ export const IconLink = () => {
             fill="rgba(255,255,255,0.7)"
           />
         </svg>
-      </a>
+      </Link>
     </Stack>
   );
 };

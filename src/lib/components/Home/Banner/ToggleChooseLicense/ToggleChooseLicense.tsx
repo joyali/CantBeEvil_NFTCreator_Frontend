@@ -1,5 +1,5 @@
 /* eslint-disable no-bitwise */
-import { Box, Button, Flex, Switch, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, Link, Switch, Text } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
@@ -143,7 +143,7 @@ export const ToggleChooseLicense = (props: FormProps) => {
             <Text color="#00CC9C" display="flex" fontSize={16} mr={1}>
               {val2License(value)}
             </Text>
-            <a
+            <Link
               href={license2PDFMap[val2License(value)]}
               target="_blank"
               rel="noreferrer"
@@ -169,7 +169,7 @@ export const ToggleChooseLicense = (props: FormProps) => {
                   fill="#777E91"
                 />
               </svg>
-            </a>
+            </Link>
           </Flex>
         </Box>
       </Box>

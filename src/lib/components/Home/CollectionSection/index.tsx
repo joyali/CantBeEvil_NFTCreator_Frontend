@@ -1,5 +1,7 @@
-import { Button, Flex, Text } from "@chakra-ui/react";
+import { Button, Flex, Switch, Text } from "@chakra-ui/react";
+import type { ChangeEvent } from "react";
 import { useEffect, useState } from "react";
+import { useAccount } from "wagmi";
 
 import type { CollectionItemProps } from "../CollectionItem";
 import CollectionItem from "../CollectionItem";
@@ -14,8 +16,28 @@ interface CollectionSectionProps {
 const CollectionSection = (props: CollectionSectionProps) => {
   const { initData, isEnd, anchorId, setIsEnd, setAnchorId } = props;
   const [data, setData] = useState<CollectionItemProps[]>([]);
-
+  const [mineCollection, setMineCollection] = useState<CollectionItemProps[]>(
+    []
+  );
   const [isLoading, setIsLoading] = useState(false);
+  const [isShowMine, setIsShowMine] = useState(false);
+  const { address } = useAccount();
+
+  const onShowMineChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setIsShowMine(e.target.checked);
+    if (!address) return;
+    if (e.target.checked) {
+      setIsLoading(true);
+      fetch(`https://api.longxia.asia/user/${address}/collection`, {
+        method: "GET",
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          setMineCollection(res.collections);
+          setIsLoading(false);
+        });
+    }
+  };
   const onShowMoreClick = () => {
     setIsLoading(true);
     fetch(
@@ -54,6 +76,17 @@ const CollectionSection = (props: CollectionSectionProps) => {
         >
           Collections
         </Text>
+        <Switch
+          colorScheme="whatsapp"
+          onChange={onShowMineChange}
+          fontSize="20px"
+          w="full"
+          maxW={1220}
+          mb={27}
+          textAlign="right"
+        >
+          Show Mine Only
+        </Switch>
         <Flex
           direction="row"
           justifyContent="space-evenly"
@@ -63,11 +96,16 @@ const CollectionSection = (props: CollectionSectionProps) => {
           w="full"
           mx="auto"
         >
-          {data.map((item: CollectionItemProps) => {
-            return <CollectionItem key={item.name} {...item} />;
-          })}
+          {!isShowMine &&
+            data.map((item: CollectionItemProps) => {
+              return <CollectionItem key={item.name} {...item} />;
+            })}
+          {isShowMine &&
+            mineCollection.map((item: CollectionItemProps) => {
+              return <CollectionItem key={item.name} {...item} isMine />;
+            })}
         </Flex>
-        {!isEnd ? (
+        {!isShowMine && !isEnd ? (
           <Button
             my="40px"
             w="205px"
@@ -89,6 +127,7 @@ const CollectionSection = (props: CollectionSectionProps) => {
             border="1px solid #000000"
             borderRadius="12px"
             fontWeight="600"
+            isLoading={isLoading}
             isDisabled
           >
             There is no more collections

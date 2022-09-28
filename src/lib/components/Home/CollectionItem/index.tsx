@@ -1,5 +1,18 @@
-import { Box, Flex, Image, Text, Link } from "@chakra-ui/react";
+import { SmallAddIcon } from "@chakra-ui/icons";
+import {
+  Box,
+  Flex,
+  Image,
+  Text,
+  Link,
+  Button,
+  IconButton,
+  useDisclosure,
+} from "@chakra-ui/react";
+import { NFTStorage } from "nft.storage";
+import { useState } from "react";
 
+import { AddTokenModal } from "../CollectionForm/AddTokenModal";
 import type { CBELicenseVersion } from "@/lib/types/CBELicenseType";
 
 import ImageLicenseTag from "./ImageLicenseTag";
@@ -11,15 +24,48 @@ export interface CollectionItemProps {
   license?: CBELicenseVersion;
   address: string;
   chainId: string;
+  isMine?: boolean;
 }
 
 const CollectionItem = (props: CollectionItemProps) => {
-  const { name, logo, desc, license, address, chainId } = props;
+  const { name, logo, desc, license, address, chainId, isMine } = props;
 
+  const { onOpen, onClose, isOpen } = useDisclosure();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const token = process.env.NEXT_PUBLIC_NFT_STORAGE_TOKEN;
+
+  const [args, setArgs] = useState<string | string[]>("");
   const url =
     chainId === "1"
       ? `https://etherscan.io/address/${address}`
       : `https://goerli.etherscan.io//address/${address}`;
+
+  const mintNFT = async (
+    _name: string,
+    image: Blob,
+    description: string,
+    recipient: string
+  ) => {
+    const storage = new NFTStorage({ token: token || "" });
+    const cidFile = await storage.storeBlob(image || new Blob());
+    const statusFile = await storage.status(cidFile);
+    const imageLink = `https://${statusFile.cid}.ipfs.nftstorage.link`;
+    const metadata = JSON.stringify({
+      name: _name,
+      description,
+      image: imageLink,
+    });
+    const cid = await storage.storeBlob(
+      new Blob([metadata], {
+        type: "text/plain",
+      })
+    );
+
+    const status = await storage.status(cid);
+    const metadataURI = `https://${status.cid}.ipfs.nftstorage.link`;
+    setArgs([recipient, metadataURI]);
+    setIsLoading(false);
+  };
   return (
     <Flex
       flexDirection="column"
@@ -45,13 +91,40 @@ const CollectionItem = (props: CollectionItemProps) => {
             borderRadius={20}
           />
         </Box>
-        <Text fontSize="medium" marginTop="20px" color="#333">
+        <Box fontSize="medium" marginTop="20px" textAlign="right">
+          <Button size="sm" colorScheme="whatsapp">
+            {chainId === "1" ? "Mainnet" : "Testnet"}
+          </Button>
+          {isMine && (
+            <IconButton
+              ml="10px"
+              size="sm"
+              icon={<SmallAddIcon />}
+              aria-label="add token"
+              onClick={(e) => {
+                e.preventDefault();
+                onOpen();
+              }}
+            />
+          )}
+        </Box>
+        <Text fontSize="medium" color="#333">
           {name}
         </Text>
         <Text fontSize="xs" marginTop="12px" noOfLines={2} color="#333">
           {desc}
         </Text>
       </Link>
+      <AddTokenModal
+        isOpen={isOpen}
+        onClose={onClose}
+        onCreate={mintNFT}
+        isLoading={isLoading}
+        setIsLoading={setIsLoading}
+        args={args}
+        address={address}
+        setArgs={setArgs}
+      />
     </Flex>
   );
 };
