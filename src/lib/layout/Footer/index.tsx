@@ -77,7 +77,7 @@ export const Footer = () => {
         >
           <Image width="245px" src="/logo-bk.png" alt="naruto" fit="contain" />
           <Text maxW={390} fontSize={14} lineHeight={1.5} display="block">
-            A community-owned sustainable decntralized P-focused Content
+            A community-owned sustainable decntralized IP-focused Content
             financial ecosystem:
           </Text>
           <Text
