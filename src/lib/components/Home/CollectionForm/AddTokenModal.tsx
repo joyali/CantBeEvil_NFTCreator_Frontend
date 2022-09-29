@@ -192,6 +192,7 @@ export const AddTokenModal = ({
             isLoading={isLoading}
             loadingText={text}
             color="#333"
+            _loading={{ opacity: "1" }}
             _hover={{ bg: "rgba(0, 204, 156, 1)" }}
             bg={`linear-gradient(90deg, rgba(0,204,156,1) 0%, rgba(0,204,156,1) ${value}%, rgba(0,204,156,0.5) ${value}%, rgba(0,204,156,0.5) 100%);`}
           >
