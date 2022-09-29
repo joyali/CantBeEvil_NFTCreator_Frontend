@@ -12,21 +12,44 @@ interface CollectionSectionProps {
   anchorId: string;
   setAnchorId: (anchorId: string) => void;
   setIsEnd: (isEnd: boolean) => void;
+  setIsShowMine: (isShowMine: boolean) => void;
+  isShowMine: boolean;
 }
 const CollectionSection = (props: CollectionSectionProps) => {
-  const { initData, isEnd, anchorId, setIsEnd, setAnchorId } = props;
+  const {
+    initData,
+    isEnd,
+    anchorId,
+    setIsEnd,
+    setAnchorId,
+    setIsShowMine,
+    isShowMine,
+  } = props;
   const [data, setData] = useState<CollectionItemProps[]>([]);
   const [mineCollection, setMineCollection] = useState<CollectionItemProps[]>(
     []
   );
   const [isLoading, setIsLoading] = useState(false);
-  const [isShowMine, setIsShowMine] = useState(false);
   const { address } = useAccount();
 
   const onShowMineChange = (e: ChangeEvent<HTMLInputElement>) => {
     setIsShowMine(e.target.checked);
+    // if (!address) return;
+    // if (e.target.checked) {
+    //   setIsLoading(true);
+    //   fetch(`https://api.longxia.asia/user/${address}/collection`, {
+    //     method: "GET",
+    //   })
+    //     .then((res) => res.json())
+    //     .then((res) => {
+    //       setMineCollection(res.collections);
+    //       setIsLoading(false);
+    //     });
+    // }
+  };
+  useEffect(() => {
     if (!address) return;
-    if (e.target.checked) {
+    if (isShowMine === true) {
       setIsLoading(true);
       fetch(`https://api.longxia.asia/user/${address}/collection`, {
         method: "GET",
@@ -37,7 +60,7 @@ const CollectionSection = (props: CollectionSectionProps) => {
           setIsLoading(false);
         });
     }
-  };
+  }, [address, isShowMine]);
   const onShowMoreClick = () => {
     setIsLoading(true);
     fetch(
@@ -84,6 +107,7 @@ const CollectionSection = (props: CollectionSectionProps) => {
           maxW={1220}
           mb={27}
           textAlign="right"
+          isChecked={isShowMine}
         >
           Show Mine Only
         </Switch>

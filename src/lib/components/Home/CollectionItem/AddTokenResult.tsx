@@ -1,4 +1,3 @@
-import { Text } from "@chakra-ui/react";
 import { usePrepareContractWrite, useContractWrite } from "wagmi";
 
 import Contract from "../CollectionForm/contract/contrat.json";
@@ -26,5 +25,5 @@ export const AddTokenResult = (props: Props) => {
   if (status === "success") {
     clearStatus();
   }
-  return <Text>{status}</Text>;
+  return null;
 };

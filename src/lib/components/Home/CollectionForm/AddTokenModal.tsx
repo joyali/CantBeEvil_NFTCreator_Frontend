@@ -36,7 +36,9 @@ export const AddTokenModal = ({
     name: string,
     image: Blob,
     description: string,
-    recipient: string
+    recipient: string,
+    setValue: (value: number) => void,
+    setText: (text: string) => void
   ) => void;
   args: string | string[];
   address: string;
@@ -61,11 +63,17 @@ export const AddTokenModal = ({
     setRecipient(e.target.value);
   };
 
+  const [value, setValue] = useState<number>(0);
+  const [text, setText] = useState<string>("");
   const clearStatus = () => {
     setName("");
     setDesc("");
     setRecipient("");
     setArgs("");
+    setIsLoading(false);
+    setValue(0);
+    setText("");
+    onClose();
   };
   const isValid = () => {
     if (!name) {
@@ -92,10 +100,16 @@ export const AddTokenModal = ({
       setIsLoading(false);
       return;
     }
-    onCreate(name, image || new Blob(), desc, recipient);
+    setValue(59);
+    onCreate(name, image || new Blob(), desc, recipient, setValue, setText);
   };
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      closeOnEsc
+      onCloseComplete={clearStatus}
+    >
       <ModalOverlay />
 
       <ModalContent
@@ -176,17 +190,20 @@ export const AddTokenModal = ({
             w="100%"
             onClick={onCreateClick}
             isLoading={isLoading}
+            loadingText={text}
+            color="#333"
+            _hover={{ bg: "rgba(0, 204, 156, 1)" }}
+            bg={`linear-gradient(90deg, rgba(0,204,156,1) 0%, rgba(0,204,156,1) ${value}%, rgba(0,204,156,0.5) ${value}%, rgba(0,204,156,0.5) 100%);`}
           >
-            {args ? (
-              <AddTokenResult
-                clearStatus={clearStatus}
-                args={args}
-                address={address}
-              />
-            ) : (
-              "Mint"
-            )}
+            Mint
           </Button>
+          {args && (
+            <AddTokenResult
+              clearStatus={clearStatus}
+              args={args}
+              address={address}
+            />
+          )}
         </ModalFooter>
       </ModalContent>
     </Modal>

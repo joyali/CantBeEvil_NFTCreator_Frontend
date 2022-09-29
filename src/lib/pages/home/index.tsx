@@ -18,6 +18,7 @@ const Home = () => {
   const [collectionData, setCollectionData] = useState<CollectionItemProps[]>(
     []
   );
+  const [isShowMine, setIsShowMine] = useState(false);
   const init = async () => {
     fetch(
       `https://api.longxia.asia/collection/?size=8&anchorId=0&reverse=true`,
@@ -64,10 +65,10 @@ const Home = () => {
       {/* <Carousel images={images} /> */}
       <Banner setLicense={setLicense} onOpen={onOpen} />
       <CollectionForm
-        init={init}
         license={license}
         isOpenProps={isOpen}
         onCloseProps={onClose}
+        setIsShowMine={setIsShowMine}
       />
       <CollectionSection
         initData={collectionData}
@@ -75,6 +76,8 @@ const Home = () => {
         setIsEnd={setIsEnd}
         anchorId={anchorId}
         setAnchorId={setAnchorId}
+        setIsShowMine={setIsShowMine}
+        isShowMine={isShowMine}
       />
       <NFTCheck />
     </Flex>

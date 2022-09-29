@@ -8,6 +8,7 @@ import {
   Text,
   Stack,
   useDisclosure,
+  Progress,
 } from "@chakra-ui/react";
 import { ContractFactory } from "ethers";
 import { NFTStorage } from "nft.storage";
@@ -28,10 +29,10 @@ interface FormProps {
   license: CBELicenseVersion;
   isOpenProps: boolean;
   onCloseProps: () => void;
-  init: () => void;
+  setIsShowMine: (value: boolean) => void;
 }
 export const CollectionForm = (props: FormProps) => {
-  const { isOpenProps, onCloseProps, license, init } = props;
+  const { isOpenProps, onCloseProps, license, setIsShowMine } = props;
   const { isOpen, onOpen } = useDisclosure();
   const token = process.env.NEXT_PUBLIC_NFT_STORAGE_TOKEN;
   const [file, setFile] = useState<File>();
@@ -40,7 +41,8 @@ export const CollectionForm = (props: FormProps) => {
   const onCollectionLogoAccepted = (f: File | null) => {
     if (f) setFile(f);
   };
-
+  const [value, setValue] = useState(0);
+  const [status, setStatus] = useState("");
   const { data: signer } = useSigner();
   const { address: creatorAddress } = useAccount();
   const { chain } = useNetwork();
@@ -94,9 +96,14 @@ export const CollectionForm = (props: FormProps) => {
       setIsLoading(false);
       return;
     }
+    setValue(10);
+    setStatus("Uploading Logo");
     const storage = new NFTStorage({ token: token || "" });
     const cidFile = await storage.storeBlob(file || new Blob());
     const statusFile = await storage.status(cidFile);
+
+    setValue(30);
+    setStatus("Uploading Metadata");
     const logo = `https://${statusFile.cid}.ipfs.nftstorage.link`;
     const metadata = JSON.stringify({
       image: logo,
@@ -107,8 +114,11 @@ export const CollectionForm = (props: FormProps) => {
         type: "text/plain",
       })
     );
-    const status = await storage.status(cid);
-    const metadataURI = `https://${status.cid}.ipfs.nftstorage.link`;
+    const metadataStatus = await storage.status(cid);
+
+    setValue(60);
+    setStatus("Deploying Contract");
+    const metadataURI = `https://${metadataStatus.cid}.ipfs.nftstorage.link`;
     const CollectionContract = new ContractFactory(
       Contract.abi,
       Contract.bytecode,
@@ -120,10 +130,16 @@ export const CollectionForm = (props: FormProps) => {
       metadataURI,
       licenceVersion(license)
     );
+
+    setValue(90);
+    setStatus("Waiting for deployed");
     await Collection.deployed();
 
     const { address } = Collection;
     const chainId = chain?.id;
+
+    setValue(95);
+    setStatus("Adding to collection");
     fetch("https://api.longxia.asia/collection", {
       method: "POST",
       headers: {
@@ -143,8 +159,10 @@ export const CollectionForm = (props: FormProps) => {
       .then((res) => res.json())
       .then(() => {
         setIsLoading(false);
+        setValue(100);
+        setStatus("Done");
         onOpen();
-        init();
+        setIsShowMine(true);
       });
   };
   return (
@@ -251,6 +269,16 @@ export const CollectionForm = (props: FormProps) => {
         </Flex>
 
         <Divider borderColor="#353945" />
+        {value !== 0 && (
+          <Progress
+            w="full"
+            borderRadius="20px"
+            value={value}
+            mt={5}
+            colorScheme="whatsapp"
+          />
+        )}
+        {status && <Text>{status}</Text>}
         <Stack
           direction="row"
           align="center"

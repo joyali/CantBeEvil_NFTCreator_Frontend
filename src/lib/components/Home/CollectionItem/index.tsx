@@ -44,9 +44,13 @@ const CollectionItem = (props: CollectionItemProps) => {
     _name: string,
     image: Blob,
     description: string,
-    recipient: string
+    recipient: string,
+    setValue: (value: number) => void,
+    setText: (text: string) => void
   ) => {
     const storage = new NFTStorage({ token: token || "" });
+    setValue(30);
+    setText("Uploading image");
     const cidFile = await storage.storeBlob(image || new Blob());
     const statusFile = await storage.status(cidFile);
     const imageLink = `https://${statusFile.cid}.ipfs.nftstorage.link`;
@@ -55,6 +59,8 @@ const CollectionItem = (props: CollectionItemProps) => {
       description,
       image: imageLink,
     });
+    setValue(50);
+    setText("Uploading metadata");
     const cid = await storage.storeBlob(
       new Blob([metadata], {
         type: "text/plain",
@@ -63,8 +69,11 @@ const CollectionItem = (props: CollectionItemProps) => {
 
     const status = await storage.status(cid);
     const metadataURI = `https://${status.cid}.ipfs.nftstorage.link`;
+
+    setValue(80);
+    setText("minting NFT");
     setArgs([recipient, metadataURI]);
-    setIsLoading(false);
+    // setIsLoading(false);
   };
   return (
     <Flex

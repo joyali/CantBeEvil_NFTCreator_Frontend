@@ -71,14 +71,12 @@ const Banner = (props: FormProps) => {
               marginTop="10px"
               alignItems="center"
               justifyContent="space-between"
-              maxW={550}
+              maxW={260}
               flexWrap="wrap"
               mb={10}
             >
               <Image src="/a16z.png" width="110px" />
-              <Image src="/leapstart.png" width="110px" />
               <Image src="/logo.png" width="110px" />
-              <Image src="/fanmake.png" width="110px" />
             </Flex>
           </Flex>
         </Flex>
