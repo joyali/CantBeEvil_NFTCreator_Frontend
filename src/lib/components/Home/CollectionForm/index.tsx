@@ -11,6 +11,7 @@ import {
   Progress,
 } from "@chakra-ui/react";
 import { ContractFactory } from "ethers";
+import Router from "next/router";
 import { NFTStorage } from "nft.storage";
 import type { ChangeEventHandler } from "react";
 import { useState } from "react";
@@ -163,6 +164,7 @@ export const CollectionForm = (props: FormProps) => {
         setStatus("Done");
         onOpen();
         setIsShowMine(true);
+        Router.push("#COLLECTIONS");
       });
   };
   return (

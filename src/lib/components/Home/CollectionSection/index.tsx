@@ -154,7 +154,7 @@ const CollectionSection = (props: CollectionSectionProps) => {
             isLoading={isLoading}
             isDisabled
           >
-            There is no more collections
+            Waiting for Your Collections
           </Button>
         )}
       </Flex>

@@ -39,6 +39,36 @@ export const IconLink = () => {
           />
         </svg>
       </Link>
+      <Link
+        href="mailto:contact@contentfi.net"
+        target="_blank"
+        rel="noreferrer"
+      >
+        <svg
+          width="40"
+          height="28"
+          viewBox="0 0 40 28"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M24.098 14.749L20.5225 17.7858C20.2367 18.0225 19.8204 18.0225 19.5429 17.7858L15.9674 14.7572L1.36328 27.1H38.6367L24.098 14.749Z"
+            fill="#B2B2B2"
+          />
+          <path
+            d="M0 1.23071V26.1776L14.702 13.7042L0 1.23071Z"
+            fill="#B2B2B2"
+          />
+          <path
+            d="M1.36328 0.308105L20 16.1204L38.6367 0.308105H1.36328Z"
+            fill="#B2B2B2"
+          />
+          <path
+            d="M25.2979 13.7042L39.9999 26.1776V1.23071L25.2979 13.7042Z"
+            fill="#B2B2B2"
+          />
+        </svg>
+      </Link>
     </Stack>
   );
 };

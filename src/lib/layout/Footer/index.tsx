@@ -48,7 +48,7 @@ const footerNavItems: FooterLinkItem[] = [
         href: "http://fanmake.xyz",
       },
       {
-        label: "Leapstart(Comming Soon)",
+        label: "LeapStart(Comming Soon)",
         href: "#",
       },
     ],
@@ -190,7 +190,7 @@ export const Footer = () => {
         justify="center"
       >
         <Text fontSize="xs" color="#777E91">
-          Copyright © 2022 LeapStart. All rights reserved
+          Copyright © 2022 ContentFi Labs. All Right Reserved
         </Text>
       </VStack>
     </VStack>
