@@ -57,7 +57,7 @@ const Home = () => {
           >
             NFT
           </span>{" "}
-          to the a16z “<span className="text-fill1">Can’t Be Evil</span>”
+          to the a16z <span className="text-fill1">Can’t Be Evil</span>{" "}
           Licenses.
         </Text>
       </Box>

@@ -44,7 +44,7 @@ const NFTCheck = () => {
   return (
     <Flex direction="column" alignItems="center" mb="127px" w="full">
       <Text my="60px" fontWeight={700} fontSize={40}>
-        Check your NFT License
+        Check Your NFT License
       </Text>
       <InputGroup maxW="640px" zIndex={2}>
         <Input
