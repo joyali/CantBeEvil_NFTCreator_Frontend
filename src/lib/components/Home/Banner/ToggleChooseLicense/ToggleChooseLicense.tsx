@@ -15,9 +15,9 @@ const val2License = (val: number) => {
     case 8:
       return CBELicenseVersion.CBE_CC0;
     case 0:
-      return CBELicenseVersion.CBE_PR_HS;
-    case 1:
       return CBELicenseVersion.CBE_PR;
+    case 1:
+      return CBELicenseVersion.CBE_PR_HS;
     case 4:
       return CBELicenseVersion.CBE_ECR;
     case 6:
@@ -30,7 +30,7 @@ const val2License = (val: number) => {
 };
 export const ToggleChooseLicense = (props: FormProps) => {
   // CC0: 8, commercial: 4, exploitation: 2, HStoggle: 1;
-  // 8: CC0; 0: CBE-PR-HS; 1: CBE-PR; 4:CBE-ECR; 6: CBE-NECR; 7: CBE-NECR-HS;
+  // 8: CC0; 0: CBE-PR; 1: CBE-PR-HS; 4:CBE-ECR; 6: CBE-NECR-HS; 7: CBE-NECR;
   const router = useRouter();
   const { setLicense, onOpen } = props;
   const [value, setValue] = useState(8);
@@ -115,7 +115,7 @@ export const ToggleChooseLicense = (props: FormProps) => {
         mb={10}
       >
         <Text fontSize={14} color="#4f4f4f">
-          Allow holder to spread Hate Speech
+          Terminate Hate Speech
         </Text>
         <Switch
           colorScheme="whatsapp"
