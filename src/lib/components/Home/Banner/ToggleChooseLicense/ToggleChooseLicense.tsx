@@ -115,7 +115,7 @@ export const ToggleChooseLicense = (props: FormProps) => {
         mb={10}
       >
         <Text fontSize={14} color="#4f4f4f">
-          Terminate Hate Speech
+          Terminate hate speech
         </Text>
         <Switch
           colorScheme="whatsapp"
