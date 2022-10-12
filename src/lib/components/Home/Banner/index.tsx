@@ -75,7 +75,7 @@ const Banner = (props: FormProps) => {
               flexWrap="wrap"
               mb={10}
             >
-              <Image src="/a16z.png" width="110px" />
+              {/* <Image src="/a16z.png" width="110px" /> */}
               <Image src="/logo.png" width="110px" />
             </Flex>
           </Flex>
