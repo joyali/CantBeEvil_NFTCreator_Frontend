@@ -136,7 +136,7 @@ export const ToggleChooseLicense = (props: FormProps) => {
         borderRadius={8}
       >
         <Text fontSize={14} fontWeight={500} color="#777E91">
-          License
+          CBE License
         </Text>
         <Box>
           <Flex direction="row" alignItems="center">
