@@ -1,7 +1,8 @@
-import { Flex, Text, Box, useDisclosure } from "@chakra-ui/react";
+import { Flex, useDisclosure } from "@chakra-ui/react";
 import { NextSeo } from "next-seo";
 import { useState, useEffect } from "react";
 
+import { CBEImage } from "@/lib/components/Home/CBEImage";
 import { CollectionForm } from "@/lib/components/Home/CollectionForm";
 import type { CollectionItemProps } from "@/lib/components/Home/CollectionItem";
 import CollectionSection from "@/lib/components/Home/CollectionSection";
@@ -43,25 +44,7 @@ const Home = () => {
       minHeight="70vh"
     >
       <NextSeo title="Home" />
-      <Box py={5} px={{ base: 5, md: 40 }} w="100%">
-        <Text className="text-fill1" fontSize={24} fontWeight={700}>
-          NFT = Non-Fungible Token
-        </Text>
-      </Box>
-      <Box w="100%" px={{ base: 5, md: 40 }}>
-        <Text maxW="990px" fontSize="64px" fontWeight={700}>
-          Applying Your{" "}
-          <span
-            className="text-fill2"
-            style={{ textDecorationLine: "underline" }}
-          >
-            NFT
-          </span>{" "}
-          to the a16z <span className="text-fill1">Can’t Be Evil</span>{" "}
-          Licenses.
-        </Text>
-      </Box>
-
+      <CBEImage />
       {/* <Carousel images={images} /> */}
       <Banner setLicense={setLicense} onOpen={onOpen} />
       <CollectionForm
