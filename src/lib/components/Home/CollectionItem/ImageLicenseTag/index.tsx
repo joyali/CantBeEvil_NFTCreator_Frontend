@@ -1,6 +1,6 @@
 import {
   Box,
-  Link,
+  // Link,
   Popover,
   PopoverArrow,
   PopoverBody,
@@ -8,7 +8,7 @@ import {
   PopoverTrigger,
 } from "@chakra-ui/react";
 
-import license2PDFMap from "@/lib/components/utils/CBEutils";
+// import license2PDFMap from "@/lib/components/utils/CBEutils";
 import type { CBELicenseVersion } from "@/lib/types/CBELicenseType";
 
 interface TagProps {
@@ -30,9 +30,12 @@ const ImageLicenseTag = (props: TagProps) => {
           borderRadius={32}
           border="2px solid #fff"
         >
+          {license}
+          {/*
           <Link href={license2PDFMap[license]} target="_blank" rel="noreferrer">
             {license}
           </Link>
+          */}
         </Box>
       </PopoverTrigger>
       <PopoverContent>

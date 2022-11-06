@@ -89,6 +89,7 @@ const CollectionItem = (props: CollectionItemProps) => {
         rgba(255, 255, 255, 0.15) 136.58%
       );"
     >
+      {/* validateDOMNesting(...): <a> cannot appear as a descendant of <a>: ImageLicenseTag */}
       <Link href={url} target="_blank">
         <Box position="relative">
           {license && <ImageLicenseTag license={license} />}
