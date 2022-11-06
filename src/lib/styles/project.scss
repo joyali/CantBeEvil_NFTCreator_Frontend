@@ -1,0 +1,39 @@
+.project-reward-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 0px 40px;
+  gap: 20px;
+  width: 256px;
+  height: 180px;
+  background: #23262f;
+  border: 1px solid #777e91;
+  border-radius: 16px;
+}
+
+.back-btn {
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 16px 40px;
+  gap: 12px;
+  width: 154px;
+  height: 48px;
+  background: none;
+  border-radius: 90px;
+  border: 2px solid #b1b5c4;
+}
+
+.continue-btn {
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 16px 40px;
+  gap: 12px;
+
+  width: 154px;
+  height: 48px;
+  background: #00cc9c;
+  border-radius: 90px;
+}

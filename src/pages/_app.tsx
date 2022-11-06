@@ -11,6 +11,7 @@ import { Chakra } from "lib/components/Chakra";
 import Layout from "lib/layout";
 
 import "lib/styles/globals.css";
+import "lib/styles/main.scss";
 import "@rainbow-me/rainbowkit/styles.css";
 
 const { chains, provider } = configureChains(
